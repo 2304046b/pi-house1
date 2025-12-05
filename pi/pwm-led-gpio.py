@@ -8,7 +8,7 @@ from pubnub import Pubnub
 GPIO.setmode(GPIO.BCM)
 
 PIN_LIVING = 4
-PIN_PORCH = 17
+PIN_PORCH = 19
 PIN_FIREPLACE = 27
 
 GPIO.setup(PIN_LIVING,GPIO.OUT)
