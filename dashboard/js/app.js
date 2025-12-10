@@ -1,4 +1,4 @@
-(function(){
+/*(function(){
 
 	var settings = {
 		channel: 'pi-house',
@@ -25,7 +25,7 @@
 		}
 	})
 
-	/* 
+
 		Data settings:
 
 		Servo
@@ -38,7 +38,7 @@
 		item: 'light-*'
 		brightness: 0 - 10
 
-	*/
+	
 
 	function publishUpdate(data) {
 		pubnub.publish({
@@ -65,3 +65,40 @@
 		publishUpdate({item: 'fireplace', brightness: +this.value});
 	}, false);
 })();
+*/
+
+// dashboard/js/app.js
+
+var settings = {
+  channel: 'pi-house',
+  publish_key: 'pub-c-d7031905-2761-47d5-a9b4-d15da7ff153',
+  subscribe_key: 'sub-c-c34fe3bd-da3e-4394-a72d-4dd48ce71bbe'
+};
+
+// Init PubNub client
+var pubnub = new PubNub({
+  publishKey: settings.publish_key,
+  subscribeKey: settings.subscribe_key,
+  uuid: 'raspberry-pi'    // any string to identify this browser
+});
+
+// When page is ready, hook up button
+window.addEventListener('DOMContentLoaded', function () {
+  var btn = document.getElementById('btn');
+  if (!btn) {
+    console.error('Button with id="btn" not found');
+    return;
+  }
+
+  btn.addEventListener('click', function () {
+    pubnub.publish(
+      {
+        channel: settings.channel,
+        message: { led: 1 }
+      },
+      function (status, response) {
+        console.log('publish status:', status, 'response:', response);
+      }
+    );
+  });
+});
