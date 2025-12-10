@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Control Pi LED</title>
+</head>
+<body>
+  <h1>LED control</h1>
+  <button id="btn">Blink LED</button>
+
+  <!-- PubNub SDK -->
+  <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.7.6.1.min.js"></script>
+
+  <script>
+    var settings = {
+      channel: 'pi-house',
+      publish_key: 'YOUR_PUB_KEY_HERE',
+      subscribe_key: 'YOUR_SUB_KEY_HERE'
+    };
+
+    var pubnub = new PubNub({
+      publishKey: settings.publish_key,
+      subscribeKey: settings.subscribe_key
+    });
+
+    document.getElementById('btn').addEventListener('click', function () {
+      pubnub.publish({
+        channel: settings.channel,
+        message: { led: 1 }
+      });
+    });
+  </script>
+</body>
+</html>
